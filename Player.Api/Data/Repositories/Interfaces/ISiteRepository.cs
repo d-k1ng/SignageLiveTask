@@ -1,6 +1,6 @@
 ﻿using SignageLivePlayer.Api.Data.Models;
 
-namespace SignageLivePlayer.Api.Data.Repository.Interfaces;
+namespace SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
 public interface ISiteRepository
 {

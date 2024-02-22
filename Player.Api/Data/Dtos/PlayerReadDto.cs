@@ -11,7 +11,19 @@ public class PlayerReadDto
     [Required]
     public string PlayerName { get; set; } = string.Empty;
 
-    public Site Site { get; set; } = new Site();
+    public string SiteName { get; set; } = string.Empty;
+
+    public string SiteAddress1 { get; set; } = string.Empty;
+
+    public string SiteAddress2 { get; set; } = string.Empty;
+
+    public string SiteTown { get; set; } = string.Empty;
+
+    public string SiteCounty { get; set; } = string.Empty;
+
+    public string SitePostcode { get; set; } = string.Empty;
+
+    public string SiteCountry { get; set; } = string.Empty;
 
     public int CheckInFrequency { get; set; }
 

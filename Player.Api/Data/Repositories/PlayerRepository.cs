@@ -1,8 +1,8 @@
 ﻿using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Models;
-using SignageLivePlayer.Api.Data.Repository.Interfaces;
+using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
-namespace SignageLivePlayer.Api.Data.Repository;
+namespace SignageLivePlayer.Api.Data.Repositories;
 
 public class PlayerRepository(AppDbContext _dbContext) : IPlayerRepository
 {

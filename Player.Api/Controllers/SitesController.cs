@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
-using SignageLivePlayer.Api.Data.Repository.Interfaces;
+using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
 namespace SignageLivePlayer.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SiteController(ILogger<SiteController> _logger, ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
+[Authorize]
+public class SitesController(ILogger<SitesController> _logger, ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
 {
    
     [HttpGet]
