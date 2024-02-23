@@ -12,15 +12,31 @@ public class UserRepository : IUserRepository
     {
         _dbContext = dbContext;
 
-        _dbContext.Users.Add(new User
+        if (!_dbContext.Users.Any())
         {
-            Email = "admin@admin.admin",
-            FirstName = "Admin",
-            LastName = "",
-            Password = "admin"
-        });
 
-        SaveChanges();
+            _dbContext.Roles.AddRange([
+                new Role { Id = "1", RoleName = "ADMIN" },
+                new Role { Id = "2", RoleName = "SITEADMIN" },
+                new Role { Id = "3", RoleName = "USER" }
+            ]);
+
+            _dbContext.Users.Add(new User
+            {
+                Email = "admin@admin.admin",
+                FirstName = "Admin",
+                LastName = "",
+                Password = "admin"
+            });
+
+            _dbContext.UserRoles.AddRange([
+                new UserRole { UserId = "1", RoleId = "1" },
+                new UserRole { UserId = "1", RoleId = "2" },
+                new UserRole { UserId = "1", RoleId = "3" }
+            ]);
+
+            SaveChanges();
+        }
     }
 
     public void Add(User user)
