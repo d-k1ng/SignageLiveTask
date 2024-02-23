@@ -17,7 +17,7 @@ public class AuthenticationController(IAuthenticationService _authService) : Con
                                                             request.FirstName,
                                                             request.LastName);
 
-        if (result.Error) BadRequest(result);
+        if (result.IsError) return Problem(statusCode: StatusCodes.Status401Unauthorized, title: result.Ex.Message);
 
         SetJWTCookie(result.Token);
 
@@ -29,7 +29,7 @@ public class AuthenticationController(IAuthenticationService _authService) : Con
     {
         var result = _authService.Login(request.Email, request.Password);
 
-        if (result.Error) return BadRequest(result);
+        if (result.IsError) return Problem(statusCode: StatusCodes.Status401Unauthorized, title: result.Ex.Message);
 
         SetJWTCookie(result.Token);
 

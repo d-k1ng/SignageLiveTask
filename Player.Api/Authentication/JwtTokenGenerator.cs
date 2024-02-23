@@ -21,10 +21,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        JwtSecurityToken token = new JwtSecurityToken(
-                                issuer: "https://www.signagelive.com",
+        JwtSecurityToken token = new(
+                                issuer: "playerapi",
                                 audience: "playerclient",
-                                expires: DateTime.Now.AddSeconds(90),
+                                expires: DateTime.Now.AddMinutes(30),
                                 claims: claims,
                                 signingCredentials: credentials
                                 );

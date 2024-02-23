@@ -4,72 +4,78 @@ using Microsoft.AspNetCore.Mvc;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
+using SignageLivePlayer.Api.Data.Repositories.Responses;
 
 namespace SignageLivePlayer.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class PlayersController(ILogger<PlayersController> _logger, IPlayerRepository _playerRepository, IMapper _mapper) : ControllerBase
+public class PlayersController(IPlayerRepository _playerRepository, IMapper _mapper) : ControllerBase
 {
     [HttpGet]
     public ActionResult<List<PlayerReadDto>> GetAll()
     {
-        _logger.LogInformation("Get All Called");
         List<Player> players = _playerRepository.GetAll();
         List<PlayerReadDto> playerDtos = _mapper.Map<List<PlayerReadDto>>(players);
         return Ok(playerDtos);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<PlayerReadDto> Get(string playerUniqueId)
+    [HttpGet("{id}", Name = "GetByPlayerId")]
+    public ActionResult<PlayerReadDto> GetByPlayerId(string id)
     {
 
-        _logger.LogInformation($"Get Id ({playerUniqueId}) Called");
+        Player? player = _playerRepository.GetByPlayerUniqueId(id);
+        if (player is null) return NotFound();
 
-        Player player = _playerRepository.GetByPlayerUniqueId(playerUniqueId);
-        PlayerReadDto playerDto = _mapper.Map<PlayerReadDto>(player);
-
-        return Ok(playerDto);
+        return Ok(_mapper.Map<PlayerReadDto>(player));
 
     }
 
     [HttpPost]
     public ActionResult<PlayerReadDto> CreatePlayer(PlayerCreateDto playerDto)
     {
-        Player player = _playerRepository.CreatePlayer(_mapper.Map<Player>(playerDto));
 
-        PlayerReadDto playerDtoFromDb = _mapper.Map<PlayerReadDto>(player);
+        RepoResponse<Player> repoResponse = _playerRepository.CreatePlayer(_mapper.Map<Player>(playerDto));
+        if (repoResponse.IsError) return Problem(statusCode: StatusCodes.Status400BadRequest, title: repoResponse.ErrorMessage);
 
         _playerRepository.SaveChanges();
 
-        return Ok(playerDtoFromDb);
+        Player playerFromDb = _playerRepository.GetByPlayerUniqueId(repoResponse.Data!.PlayerUniqueId)!;
+
+        PlayerReadDto playerDtoFromDb = _mapper.Map<PlayerReadDto>(playerFromDb);
+
+        return CreatedAtRoute(nameof(GetByPlayerId), new {id = playerDtoFromDb.PlayerUniqueId}, playerDtoFromDb);
 
     }
 
     [HttpPut("{id}")]
-    public ActionResult<PlayerReadDto> UpdatePlayer(string playerUniqueId, PlayerUpdateDto playerDto)
+    public IActionResult UpdatePlayer(string id, PlayerUpdateDto playerDto)
     {
 
-        Player player = _playerRepository.GetByPlayerUniqueId(playerUniqueId);
+        Player? player = _playerRepository.GetByPlayerUniqueId(id);
+        if (player is null) return NotFound();
 
         _mapper.Map(playerDto, player);
 
-        _playerRepository.UpdatePlayer(player);
+        RepoResponse<Player> repoResponse = _playerRepository.UpdatePlayer(player);
+        if (repoResponse.IsError) return Problem(statusCode: StatusCodes.Status400BadRequest, title: repoResponse.ErrorMessage);
 
         _playerRepository.SaveChanges();
-
-        return Ok(_mapper.Map<PlayerReadDto>(player));
+        return NoContent();
 
     }
 
     [HttpDelete("{id}")]
-    public void Delete(string playerUniqueId)
+    public IActionResult Delete(string id)
     {
-
-        Player player = _playerRepository.GetByPlayerUniqueId(playerUniqueId);
+        _playerRepository.DeletePlayer(new Player());
+        Player? player = _playerRepository.GetByPlayerUniqueId(id);
+        if (player is null) return NotFound();
         _playerRepository.DeletePlayer(player);
         _playerRepository.SaveChanges();
+
+        return NoContent();
 
     }
 

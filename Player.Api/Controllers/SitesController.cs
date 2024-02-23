@@ -4,31 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
+using System.Numerics;
 
 namespace SignageLivePlayer.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class SitesController(ILogger<SitesController> _logger, ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
+public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
 {
    
     [HttpGet]
     public ActionResult<List<SiteReadDto>> GetAll()
     {
-        _logger.LogInformation("Get All Called");
         List<Site> sites = _siteRepository.GetAll();
         List<SiteReadDto> siteDtos = _mapper.Map<List<SiteReadDto>>(sites);
         return Ok(siteDtos);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<SiteReadDto> GetById(string siteId)
+    [HttpGet("{id}", Name = "GetById")]
+    public ActionResult<SiteReadDto> GetById(string id)
     {
 
-        _logger.LogInformation($"Get Id ({siteId}) Called");
-
-        Site site = _siteRepository.GetById(siteId);
+        Site? site = _siteRepository.GetById(id);
+        if (site is null) return NotFound();
         SiteReadDto siteDto = _mapper.Map<SiteReadDto>(site);
 
         return Ok(siteDto);
@@ -39,20 +38,19 @@ public class SitesController(ILogger<SitesController> _logger, ISiteRepository _
     public ActionResult<SiteReadDto> CreateSite(SiteCreateDto siteDto)
     {
         Site site = _siteRepository.CreateSite(_mapper.Map<Site>(siteDto));
-
-        SiteReadDto siteDtoFromDb = _mapper.Map<SiteReadDto>(site);
-
         _siteRepository.SaveChanges();
 
-        return Ok(siteDtoFromDb);
+        SiteReadDto siteDtoFromDb = _mapper.Map<SiteReadDto>(site);
+        return CreatedAtRoute(nameof(GetById), new { id = siteDtoFromDb.Id }, siteDtoFromDb);
 
     }
 
     [HttpPut("{id}")]
-    public ActionResult<SiteReadDto> UpdateSite(string siteId, SiteUpdateDto siteDto)
+    public IActionResult UpdateSite(string id, SiteUpdateDto siteDto)
     {
 
-        Site site = _siteRepository.GetById(siteId);
+        Site? site = _siteRepository.GetById(id);
+        if (site is null) return NotFound();
 
         _mapper.Map(siteDto, site);
 
@@ -60,17 +58,20 @@ public class SitesController(ILogger<SitesController> _logger, ISiteRepository _
 
         _siteRepository.SaveChanges();
 
-        return Ok(_mapper.Map<SiteReadDto>(site));
+        return NoContent();
 
     }
 
     [HttpDelete("{id}")]
-    public void Delete(string siteId)
+    public IActionResult Delete(string id)
     {
 
-        Site site = _siteRepository.GetById(siteId);
+        Site? site = _siteRepository.GetById(id);
+        if (site is null) return NotFound();
+
         _siteRepository.DeleteSite(site);
         _siteRepository.SaveChanges();
+        return NoContent();
 
     }
 

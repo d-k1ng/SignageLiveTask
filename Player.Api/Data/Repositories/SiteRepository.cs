@@ -11,9 +11,9 @@ public class SiteRepository(AppDbContext _dbContext) : ISiteRepository
         return _dbContext.Sites.ToList();
     }
 
-    public Site GetById(string id)
+    public Site? GetById(string id)
     {
-        return _dbContext.Sites.FirstOrDefault(s => s.Id == id) ?? new Site();
+        return _dbContext.Sites.FirstOrDefault(s => s.Id == id);
     }
 
     public Site CreateSite(Site site)

@@ -4,6 +4,8 @@ namespace SignageLivePlayer.Api.Data.Dtos;
 
 public class SiteReadDto
 {
+    [Required]
+    public required string Id { get; set; }
 
     public string SiteName { get; set; } = string.Empty;
 
@@ -21,5 +23,5 @@ public class SiteReadDto
 
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-    public DateTime DateModified { get; set; }
+    public DateTime? DateModified { get; set; }
 }

@@ -25,8 +25,7 @@ public class Site
 
     public string SiteCountry { get; set; } = string.Empty;
 
-    [Required]
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-
-    public DateTime DateModified { get; set; }
+    
+    public DateTime DateModified { get; set; } = DateTime.UtcNow;
 }

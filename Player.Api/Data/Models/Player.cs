@@ -30,16 +30,15 @@ public class Player
     [Required]
     public string PlayerName { get; set; } = string.Empty;
 
-    public string SiteId { get; set; } = string.Empty;
+    public string? SiteId { get; set; }
     [ForeignKey("SiteId")]
-    public Site Site { get; set; } = new Site();
+    public Site? Site { get; set; }
 
     public int CheckInFrequency { get; set; }
 
-    [Required]
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-    public DateTime DateModified{ get; set; }
+    public DateTime DateModified{ get; set; } = DateTime.UtcNow;
 
 
 

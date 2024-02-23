@@ -29,10 +29,10 @@ public class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserR
         User? user = _userRepository.GetUserByEmail(email);
 
         //validate user exists
-        if (user is null) return new AuthenticationResult(new User(), "", true, new Exception("Invalid Credentials"));//Errors.Authentication.InvalidCredentials;
+        if (user is null) return new AuthenticationResult(new User(), "", true, new Exception("Invalid Credentials"));
 
         //validate password
-        if (!password.Equals(user.Password)) return new AuthenticationResult(new User(), "",true, new Exception("Invalid Credentials")); //Errors.Authentication.InvalidCredentials;
+        if (!password.Equals(user.Password)) return new AuthenticationResult(new User(), "",true, new Exception("Invalid Credentials"));
   
         //create jwt
         var token = _jwtTokenGenerator.GenerateToken(user);

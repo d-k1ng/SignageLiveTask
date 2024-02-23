@@ -9,6 +9,8 @@ using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 using SignageLivePlayer.Api.Data.Repositories;
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Configuration;
+using SignageLivePlayer.Api.Extensions;
+using Serilog;
 
 namespace SignageLivePlayer.Api;
 
@@ -20,13 +22,15 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
         builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("testdb"));
+
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
         builder.Services.AddScoped<ISiteRepository, SiteRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+
         builder.Services.AddAutoMapper(opt => opt.AddProfile<MapperConfig>());
-        builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-        
 
         builder.Services.AddControllers();
 
@@ -48,12 +52,20 @@ public class Program
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidAudience = "playerclient",
-                ValidIssuer = "https://www.signagelive.com",
+                ValidIssuer = "playerapi",
                 ClockSkew = TimeSpan.Zero,// It forces tokens to expire exactly at token expiration time instead of 5 minutes later
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisisasecretforjwttokensthatwewilluse"))
             };
         });
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+        builder.Host.UseSerilog();
+
         var app = builder.Build();
+
+        app.UseExceptionHandler(exceptionHandlerApp => exceptionHandlerApp.ConfigureExceptionHandler());
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -61,6 +73,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseSerilogRequestLogging();
 
         app.UseHttpsRedirection();
 

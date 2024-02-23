@@ -6,6 +6,6 @@ public record AuthenticationResult
 (
     User User,
     string Token,
-    bool Error,
+    bool IsError,
     Exception Ex
 );

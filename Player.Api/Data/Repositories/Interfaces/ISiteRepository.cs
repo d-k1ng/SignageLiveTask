@@ -6,7 +6,7 @@ public interface ISiteRepository
 {
     public List<Site> GetAll();
 
-    public Site GetById(string id);
+    public Site? GetById(string id);
 
     public Site CreateSite(Site site);
 

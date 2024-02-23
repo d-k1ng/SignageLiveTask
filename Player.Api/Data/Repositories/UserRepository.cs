@@ -4,8 +4,24 @@ using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
 namespace SignageLivePlayer.Api.Data.Repositories;
 
-public class UserRepository(AppDbContext _dbContext) : IUserRepository
+public class UserRepository : IUserRepository
 {
+    private readonly AppDbContext _dbContext;
+
+    public UserRepository(AppDbContext dbContext)
+    {
+        _dbContext = dbContext;
+
+        _dbContext.Users.Add(new User
+        {
+            Email = "admin@admin.admin",
+            FirstName = "Admin",
+            LastName = "",
+            Password = "admin"
+        });
+
+        SaveChanges();
+    }
 
     public void Add(User user)
     {
