@@ -5,8 +5,7 @@
 }
 
 <h2>All Sites</h2>
-<a asp-action="AddSite" class="btn btn-sm btn-primary">Add Site</a>
-<a asp-action="GetSite" class="btn btn-sm btn-secondary">Get Site</a>
+<a asp-action="Add" class="btn btn-sm btn-primary">Add Site</a>
 
 <table class="table table-sm table-striped table-bordered m-2">
     <thead>
@@ -25,17 +24,17 @@
             <tr>
                 <td>@s.Id</td>
                 <td>@s.SiteName</td>
-                <td>@s.SiteAddress1 @s.SiteAddress2 @s.SiteTown @s.SiteCounty @s.SitePostcode @s.SiteCountry</td>
+                <td><p>@s.SiteAddress1</p> <p>@s.SiteTown</p> <p>@s.SiteCounty</p> <p>@s.SitePostcode</p> <p>@s.SiteCountry</p></td>
                 <td>@s.DateCreated</td>
                 <td>
-                    <a asp-action="UpdateSite" asp-route-id="@s.Id">
-                        Edit
+                    <a asp-action="Update" asp-route-id="@s.Id">
+                        <div class="btn btn-primary">Edit</div>
                     </a>
                 </td>
                 <td>
-                    <form asp-action="DeleteSite" method="post">
+                    <form asp-action="Delete" method="post">
                         <input type="hidden" value="@s.Id" name="id" />
-                        Delete
+                        <button class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>

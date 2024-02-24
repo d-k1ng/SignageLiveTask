@@ -1,0 +1,72 @@
+﻿@model SiteReadDto
+@{
+    ViewBag.Title = "Add a Site";
+}
+
+
+
+<h2>Add a Site <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label for="SiteName">Site Name:</label>
+        <input class="form-control" name="SiteName" />
+    </div>
+    <div class="form-group">
+        <label for="SiteAddress1">Site Address 1:</label>
+        <input class="form-control" name="SiteAddress1" />
+    </div>
+    <div class="form-group">
+        <label for="SiteAddress2">Site Address 2:</label>
+        <input class="form-control" name="SiteAddress2" />
+    </div>
+    <div class="form-group">
+        <label for="SiteTown">Site Town:</label>
+        <input class="form-control" name="SiteTown" />
+    </div>
+    <div class="form-group">
+        <label for="SiteCounty">Site County:</label>
+        <input class="form-control" name="SiteCounty" />
+    </div>
+    <div class="form-group">
+        <label for="SitePostcode">Site Postcode:</label>
+        <input class="form-control" name="SitePostcode" />
+    </div>
+    <div class="form-group">
+        <label for="SiteCountry">Site Country:</label>
+        <input class="form-control" name="SiteCountry" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h2>Site</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>Site Id</th>
+                <th>Site Name</th>
+                <th>Site Address 1</th>
+                <th>Site Address 2</th>
+                <th>Site Town</th>
+                <th>Site County</th>
+                <th>Site Postcode</th>
+                <th>Site Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.SiteName</td>
+                <td>@Model.SiteAddress1</td>
+                <td>@Model.SiteAddress2</td>
+                <td>@Model.SiteTown</td>
+                <td>@Model.SiteCounty</td>
+                <td>@Model.SitePostcode</td>
+                <td>@Model.SiteCountry</td>
+            </tr>
+        </tbody>
+    </table>
+}

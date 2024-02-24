@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
-using System.Numerics;
 
 namespace SignageLivePlayer.Api.Controllers;
 

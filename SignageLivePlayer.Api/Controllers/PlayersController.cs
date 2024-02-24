@@ -69,7 +69,6 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
     [HttpDelete("{id}")]
     public IActionResult Delete(string id)
     {
-        _playerRepository.DeletePlayer(new Player());
         Player? player = _playerRepository.GetByPlayerUniqueId(id);
         if (player is null) return NotFound();
         _playerRepository.DeletePlayer(player);

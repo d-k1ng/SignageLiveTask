@@ -6,8 +6,7 @@
 }
 
 <h2>All Players</h2>
-<a asp-action="AddPlayer" class="btn btn-sm btn-primary">Add Player</a>
-<a asp-action="GetPlayer" class="btn btn-sm btn-secondary">Get Player</a>
+<a asp-action="Add" class="btn btn-sm btn-primary">Add Player</a>
 
 <table class="table table-sm table-striped table-bordered m-2">
     <thead>
@@ -31,14 +30,14 @@
                 <td>@p.CheckInFrequency</td>
                 <td>@p.DateCreated</td>
                 <td>
-                    <a asp-action="UpdatePlayer" asp-route-id="@p.PlayerUniqueId">
-                        <img src="/icon/edit.png" />
+                    <a asp-action="Update" asp-route-id="@p.PlayerUniqueId">
+                        <div class="btn btn-primary">Edit</div>
                     </a>
                 </td>
                 <td>
-                    <form asp-action="DeletePlayer" method="post">
+                    <form asp-action="Delete" method="post">
                         <input type="hidden" value="@p.PlayerUniqueId" name="id" />
-                        <input type="image" src="/icon/close.png" />
+                        <button class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>

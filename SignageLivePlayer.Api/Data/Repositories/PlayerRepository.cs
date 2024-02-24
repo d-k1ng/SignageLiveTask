@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SignageLivePlayer.Api.Configuration;
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
@@ -14,45 +15,14 @@ public class PlayerRepository : IPlayerRepository
     {
         _dbContext = dbContext;
 
-        if (!_dbContext.Sites.Any()) SeedData();
+        if (!_dbContext.Sites.Any()) SeedNewData();
         
     }
 
-    public void SeedData()
+    public void SeedNewData()
     {
-        Site site = new Site
-        {
-            Id = "1",
-            SiteName = "Default"
-        };
-        _dbContext.Sites.Add(site);
-
-        _dbContext.Players.Add(new Player
-        {
-            Id = Guid.NewGuid().ToString(),
-            PlayerUniqueId = Guid.NewGuid().ToString(),
-            PlayerName = "Reception 1",
-            SiteId = site.Id,
-            Site = site
-        });
-
-        _dbContext.Players.Add(new Player
-        {
-            Id = Guid.NewGuid().ToString(),
-            PlayerUniqueId = Guid.NewGuid().ToString(),
-            PlayerName = "Reception 2",
-            SiteId = site.Id,
-            Site = site
-        });
-
-        _dbContext.Players.Add(new Player
-        {
-            Id = Guid.NewGuid().ToString(),
-            PlayerUniqueId = Guid.NewGuid().ToString(),
-            PlayerName = "Warehouse",
-            SiteId = site.Id,
-            Site = site
-        });
+        foreach (var site in SeedData.sites) _dbContext.Sites.Add(site);
+        foreach (var player in SeedData.players) _dbContext.Players.Add(player);
 
         SaveChanges();
     }

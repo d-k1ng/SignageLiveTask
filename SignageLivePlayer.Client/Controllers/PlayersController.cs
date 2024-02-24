@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignageLivePlayer.Api.Data.Dtos;
+using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Client.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace SignageLivePlayer.Client.Controllers;
 
@@ -30,11 +32,122 @@ public class PlayersController : Controller
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    return RedirectToAction("Index", "Authorisation", new { message = "Please Login again" });
+                    return RedirectToAction("Index", "Authorisation", new { message = "Unauthorized. Please Login." });
                 }
             }
         }
         return View(playerList);
+    }
+
+    public IActionResult Add(string message)
+    {
+        ViewBag.Message = message;
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add(string PlayerName, string SiteId, int CheckInFrequency)
+    {
+        PlayerCreateDto playerCreateDto = new PlayerCreateDto {
+            SiteId = SiteId,
+            PlayerName = PlayerName,
+            CheckInFrequency = CheckInFrequency
+        };
+
+        var jwt = Request.Cookies["jwtCookie"];
+
+        PlayerReadDto receivedPlayer = new PlayerReadDto();
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(playerCreateDto), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:7012/api/Players", content))
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    receivedPlayer = JsonConvert.DeserializeObject<PlayerReadDto>(apiResponse)!;
+                }
+                else
+                {
+                    ViewBag.StatusCode = response.StatusCode;
+                    RedirectToAction("Add", new { message = "Invalid Credentials" });
+                }
+            }
+        }
+        return View(receivedPlayer);
+    }
+
+    public async Task<IActionResult> Update(string id)
+    {
+        var jwt = Request.Cookies["jwtCookie"];
+
+        PlayerReadDto playerReadDto = new PlayerReadDto();
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            using (var response = await httpClient.GetAsync("https://localhost:7012/api/Players/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                playerReadDto = JsonConvert.DeserializeObject<PlayerReadDto>(apiResponse)!;
+            }
+        }
+        PlayerUpdateModel pum = new PlayerUpdateModel
+        {
+            PlayerUniqueId = playerReadDto.PlayerUniqueId,
+            CheckInFrequency = playerReadDto.CheckInFrequency,
+            PlayerName = playerReadDto.PlayerName,
+            SiteId = playerReadDto.Site!.Id
+        };
+        return View(pum);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(string id, string PlayerUniqueId, string PlayerName, string SiteId, int CheckInFrequency)
+    {
+        PlayerUpdateDto playerUpdateDto = new PlayerUpdateDto
+        {
+            SiteId = SiteId,
+            PlayerName = PlayerName,
+            CheckInFrequency = CheckInFrequency
+        };
+
+        var jwt = Request.Cookies["jwtCookie"];
+
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(playerUpdateDto), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Players/" + id, content))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ViewBag.Result = "Success";
+            }
+        }
+
+        PlayerUpdateModel pum = new PlayerUpdateModel { 
+            PlayerUniqueId = PlayerUniqueId,
+            CheckInFrequency = CheckInFrequency,
+            PlayerName = PlayerName,
+            SiteId = SiteId
+        };
+        return View(pum);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        var jwt = Request.Cookies["jwtCookie"];
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            using (var response = await httpClient.DeleteAsync("https://localhost:7012/api/Players/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        return RedirectToAction("Index");
     }
 
 

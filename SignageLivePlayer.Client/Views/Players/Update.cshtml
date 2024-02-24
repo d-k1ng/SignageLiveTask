@@ -1,0 +1,50 @@
+﻿@model PlayerUpdateModel
+@{
+    ViewBag.Title = "Update a Player";
+}
+
+<h2>Update a Player <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="PlayerUniqueId"></label>
+        <input class="form-control" asp-for="PlayerUniqueId" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PlayerName"></label>
+        <input class="form-control" asp-for="PlayerName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CheckInFrequency"></label>
+        <input class="form-control" asp-for="CheckInFrequency" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SiteId"></label>
+        <input class="form-control" asp-for="SiteId" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+</form>
+
+@if (ViewBag.Result == "Success")
+{
+    <h2>Player</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>Unique Id</th>
+                <th>Player Name</th>
+                <th>Check In Frequency (Mins)</th>
+                <th>Site Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.PlayerUniqueId</td>
+                <td>@Model.PlayerName</td>
+                <td>@Model.CheckInFrequency</td>
+                <td>@Model.SiteId</td>
+            </tr>
+        </tbody>
+    </table>
+}

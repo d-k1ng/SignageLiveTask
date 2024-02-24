@@ -5,7 +5,7 @@ namespace SignageLivePlayer.Api.Data.Dtos;
 public class SiteReadDto
 {
     [Required]
-    public required string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public string SiteName { get; set; } = string.Empty;
 

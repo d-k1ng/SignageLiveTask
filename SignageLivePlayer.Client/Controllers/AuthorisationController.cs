@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using SignageLivePlayer.Api.Authentication.Requests;
 using SignageLivePlayer.Api.Authentication.Responses;
-using SignageLivePlayer.Api.Data.Dtos;
-using System.ComponentModel.DataAnnotations;
 
 namespace SignageLivePlayer.Client.Controllers;
 

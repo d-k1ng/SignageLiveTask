@@ -1,0 +1,51 @@
+﻿@model PlayerReadDto
+@{
+    ViewBag.Title = "Add a Player";
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-danger">@ViewBag.Message</div>
+}
+
+<h2>Add a Player <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label for="PlayerName">Player Name:</label>
+        <input class="form-control" name="PlayerName" />
+    </div>
+    <div class="form-group">
+        <label for="SiteId">Site Id:</label>
+        <input class="form-control" name="SiteId" />
+    </div>
+    <div class="form-group">
+        <label for="CheckInFrequency">Check In Frequency (Mins):</label>
+        <input class="form-control" name="CheckInFrequency" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h2>Player</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>Unique Id</th>
+                <th>Player Name</th>
+                <th>Site</th>
+                <th>Check In Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.PlayerUniqueId</td>
+                <td>@Model.PlayerName</td>
+                <td></td>
+                <td>@Model.CheckInFrequency</td>
+            </tr>
+        </tbody>
+    </table>
+}
