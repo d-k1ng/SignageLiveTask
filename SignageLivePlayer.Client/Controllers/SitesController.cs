@@ -48,12 +48,12 @@ public class SitesController : Controller
         SiteCreateDto siteCreateDto = new SiteCreateDto
         {
                 SiteName = siteViewModel.SiteName,
-                SiteAddress1 = siteViewModel.SiteAddress1,
-                SiteAddress2 = siteViewModel.SiteAddress2,
-                SiteTown = siteViewModel.SiteTown,
-                SiteCounty = siteViewModel.SiteCounty,
-                SitePostcode = siteViewModel.SitePostcode,
-                SiteCountry = siteViewModel.SiteCountry
+                SiteAddress1 = siteViewModel.SiteAddress1!,
+                SiteAddress2 = siteViewModel.SiteAddress2!,
+                SiteTown = siteViewModel.SiteTown!,
+                SiteCounty = siteViewModel.SiteCounty!,
+                SitePostcode = siteViewModel.SitePostcode!,
+                SiteCountry = siteViewModel.SiteCountry!
         };
 
         var jwt = Request.Cookies["jwtCookie"];
@@ -118,12 +118,12 @@ public class SitesController : Controller
         SiteUpdateDto siteUpdateDto = new SiteUpdateDto
         {
             SiteName = siteViewModel.SiteName,
-            SiteAddress1 = siteViewModel.SiteAddress1,
-            SiteAddress2 = siteViewModel.SiteAddress2,
-            SiteTown = siteViewModel.SiteTown,
-            SiteCounty = siteViewModel.SiteCounty,
-            SitePostcode = siteViewModel.SitePostcode,
-            SiteCountry = siteViewModel.SiteCountry
+            SiteAddress1 = siteViewModel.SiteAddress1!,
+            SiteAddress2 = siteViewModel.SiteAddress2!,
+            SiteTown = siteViewModel.SiteTown!,
+            SiteCounty = siteViewModel.SiteCounty!,
+            SitePostcode = siteViewModel.SitePostcode!,
+            SiteCountry = siteViewModel.SiteCountry!
         };
 
         var jwt = Request.Cookies["jwtCookie"];

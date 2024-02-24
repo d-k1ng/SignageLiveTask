@@ -24,7 +24,7 @@ public class Program
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("testdb"));
+        builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("SQLite")));
 
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
         builder.Services.AddScoped<ISiteRepository, SiteRepository>();

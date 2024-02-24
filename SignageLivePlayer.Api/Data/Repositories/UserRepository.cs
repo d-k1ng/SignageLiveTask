@@ -12,14 +12,6 @@ public class UserRepository : IUserRepository
     public UserRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
-
-        if (!_dbContext.Users.Any())
-        {
-            foreach (var role in Roles.AllRoles()) _dbContext.Roles.Add(role);
-            foreach (var user in SeedData.users) _dbContext.Users.Add(user);
-            foreach (var userRole in SeedData.userRoles) _dbContext.UserRoles.Add(userRole);
-            SaveChanges();
-        }
     }
 
     public void Add(User user)
@@ -28,9 +20,9 @@ public class UserRepository : IUserRepository
         _dbContext.Users.Add(user);
 
         //add user role USER for all new users
-        foreach (var role in Roles.AllRoles())
+        foreach (var role in StaticData.AllRoles())
         {
-            if (role.RoleName == Roles.ROLE_USER) {
+            if (role.RoleName == StaticData.ROLE_USER) {
                 UserRole userRole = new UserRole();
                 userRole.UserId = user.Id;
                 userRole.RoleId = role.Id;
