@@ -1,0 +1,44 @@
+﻿@model List<SiteReadDto>
+
+@{
+    ViewData["Title"] = "All Sites";
+}
+
+<h2>All Sites</h2>
+<a asp-action="AddSite" class="btn btn-sm btn-primary">Add Site</a>
+<a asp-action="GetSite" class="btn btn-sm btn-secondary">Get Site</a>
+
+<table class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Site Id</th>
+            <th>Site Name</th>
+            <th>Site Address</th>
+            <th>Date Created</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.SiteName</td>
+                <td>@s.SiteAddress1 @s.SiteAddress2 @s.SiteTown @s.SiteCounty @s.SitePostcode @s.SiteCountry</td>
+                <td>@s.DateCreated</td>
+                <td>
+                    <a asp-action="UpdateSite" asp-route-id="@s.Id">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <form asp-action="DeleteSite" method="post">
+                        <input type="hidden" value="@s.Id" name="id" />
+                        Delete
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

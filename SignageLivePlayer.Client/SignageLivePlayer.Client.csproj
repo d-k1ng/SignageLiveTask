@@ -14,8 +14,4 @@
     <ProjectReference Include="..\SignageLivePlayer.Api\SignageLivePlayer.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Sites\" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,44 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Register";
 }
+
+@model string
+<h2>Register</h2>
+
+@if (Model != null)
+{
+    <div class="alert-danger">Registration Failed</div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-danger">@ViewBag.Message</div>
+}
+
+<form method="post">
+    <table class="w-25 table table-striped table-bordered">
+        <tbody>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" name="lastName" /></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="email" /></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="text" name="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button>Submit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
