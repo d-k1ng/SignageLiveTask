@@ -6,7 +6,7 @@
 }
 
 <h2>All Players</h2>
-<a asp-action="Add" class="btn btn-sm btn-primary">Add Player</a>
+<a asp-action="Add" class="btn btn-sm btn-outline-primary">Add Player</a>
 
 <table class="table table-sm table-striped table-bordered m-2">
     <thead>
@@ -17,7 +17,6 @@
             <th>Check In Frequency</th>
             <th>Date Created</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,19 +25,25 @@
             <tr>
                 <td>@p.PlayerUniqueId</td>
                 <td>@p.PlayerName</td>
-                <td>site</td>
+                <td><a asp-controller="Sites" asp-action="Update" asp-route-id="@p.Site.Id">@p.Site!.SiteName</a></td>
                 <td>@p.CheckInFrequency</td>
                 <td>@p.DateCreated</td>
                 <td>
-                    <a asp-action="Update" asp-route-id="@p.PlayerUniqueId">
-                        <div class="btn btn-primary">Edit</div>
-                    </a>
-                </td>
-                <td>
-                    <form asp-action="Delete" method="post">
-                        <input type="hidden" value="@p.PlayerUniqueId" name="id" />
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+                    <table>
+                        <tr>
+                            <td>
+                                <a asp-action="Update" asp-route-id="@p.PlayerUniqueId">
+                                    <div class="btn btn-sm btn-outline-primary">Edit</div>
+                                </a>
+                            </td>
+                            <td>
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" value="@p.PlayerUniqueId" name="id" />
+                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         }

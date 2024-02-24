@@ -1,46 +1,58 @@
-﻿@model SiteReadDto
+﻿@model SiteViewModel
 @{
     ViewBag.Title = "Add a Site";
 }
 
 
 
-<h2>Add a Site <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
-<form asp-action="Add" method="post">
-    <div class="form-group">
-        <label for="SiteName">Site Name:</label>
-        <input class="form-control" name="SiteName" />
+<h2>Add a Site <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Back</a></h2>
+
+<form asp-action="Add" method="post" enctype="multipart/form-data">
+
+    <input asp-for="Id" hidden="hidden" />
+
+    <div>
+        <label asp-for="SiteName"></label>
+        <input asp-for="SiteName" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteName" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SiteAddress1">Site Address 1:</label>
-        <input class="form-control" name="SiteAddress1" />
+    <div>
+        <label asp-for="SiteAddress1"></label>
+        <input asp-for="SiteAddress1" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteAddress1" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SiteAddress2">Site Address 2:</label>
-        <input class="form-control" name="SiteAddress2" />
+    <div>
+        <label asp-for="SiteAddress2"></label>
+        <input asp-for="SiteAddress2" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteAddress2" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SiteTown">Site Town:</label>
-        <input class="form-control" name="SiteTown" />
+    <div>
+        <label asp-for="SiteTown"></label>
+        <input asp-for="SiteTown" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteTown" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SiteCounty">Site County:</label>
-        <input class="form-control" name="SiteCounty" />
+    <div>
+        <label asp-for="SiteCounty"></label>
+        <input asp-for="SiteCounty" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteCounty" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SitePostcode">Site Postcode:</label>
-        <input class="form-control" name="SitePostcode" />
+    <div>
+        <label asp-for="SitePostcode"></label>
+        <input asp-for="SitePostcode" class="form-control border-0 shadow" />
+        <span asp-validation-for="SitePostcode" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="SiteCountry">Site Country:</label>
-        <input class="form-control" name="SiteCountry" />
+    <div>
+        <label asp-for="SiteCountry"></label>
+        <input asp-for="SiteCountry" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteCountry" class="text-danger"></span>
     </div>
+
     <div class="text-center panel-body">
-        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
     </div>
 </form>
 
-@if (Model != null)
+@if (Model is not null && Model.Id != "")
 {
     <h2>Site</h2>
     <table class="table table-sm table-striped table-bordered m-2">

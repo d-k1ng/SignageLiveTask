@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SignageLivePlayer.Client.Dtos;
 using SignageLivePlayer.Client.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -30,7 +31,7 @@ public class SitesController : Controller
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    return RedirectToAction("Index", "Authorisation", new { message = "Unauthorized. Please Login." });
+                    return RedirectToAction("Index", "Authentication", new { message = "Unauthorized. Please Login." });
                 }
             }
         }
@@ -43,23 +44,17 @@ public class SitesController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(   string SiteName,
-                                            string SiteAddress1,
-                                            string SiteAddress2,
-                                            string SiteTown,
-                                            string SiteCounty,
-                                            string SitePostcode,
-                                            string SiteCountry)
+    public async Task<IActionResult> Add(SiteViewModel siteViewModel)
     {
         SiteCreateDto siteCreateDto = new SiteCreateDto
         {
-                SiteName = SiteName,
-                SiteAddress1 = SiteAddress1,
-                SiteAddress2 = SiteAddress2,
-                SiteTown = SiteTown,
-                SiteCounty = SiteCounty,
-                SitePostcode = SitePostcode,
-                SiteCountry = SiteCountry
+                SiteName = siteViewModel.SiteName,
+                SiteAddress1 = siteViewModel.SiteAddress1,
+                SiteAddress2 = siteViewModel.SiteAddress2,
+                SiteTown = siteViewModel.SiteTown,
+                SiteCounty = siteViewModel.SiteCounty,
+                SitePostcode = siteViewModel.SitePostcode,
+                SiteCountry = siteViewModel.SiteCountry
         };
 
         var jwt = Request.Cookies["jwtCookie"];
@@ -83,7 +78,9 @@ public class SitesController : Controller
                 }
             }
         }
-        return View(receivedSite);
+        siteViewModel.Id = receivedSite.Id;
+        siteViewModel.DateCreated = receivedSite.DateCreated;
+        return View(siteViewModel);
     }
 
     public async Task<IActionResult> Update(string id)
@@ -100,28 +97,34 @@ public class SitesController : Controller
                 siteReadDto = JsonConvert.DeserializeObject<SiteReadDto>(apiResponse)!;
             }
         }
-        return View(siteReadDto);
+
+        SiteViewModel siteViewModel = new SiteViewModel
+        {
+            Id = siteReadDto.Id,
+            SiteName = siteReadDto.SiteName,
+            SiteAddress1 = siteReadDto.SiteAddress1,
+            SiteAddress2 = siteReadDto.SiteAddress2,
+            SiteTown = siteReadDto.SiteTown,
+            SiteCounty = siteReadDto.SiteCounty,
+            SitePostcode = siteReadDto.SitePostcode,
+            SiteCountry = siteReadDto.SiteCountry
+        };
+
+        return View(siteViewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(string id,
-                                            string SiteName,
-                                            string SiteAddress1,
-                                            string SiteAddress2,
-                                            string SiteTown,
-                                            string SiteCounty,
-                                            string SitePostcode,
-                                            string SiteCountry)
+    public async Task<IActionResult> Update(SiteViewModel siteViewModel)
     {
         SiteUpdateDto siteUpdateDto = new SiteUpdateDto
         {
-            SiteName = SiteName,
-            SiteAddress1 = SiteAddress1,
-            SiteAddress2 = SiteAddress2,
-            SiteTown = SiteTown,
-            SiteCounty = SiteCounty,
-            SitePostcode = SitePostcode,
-            SiteCountry = SiteCountry
+            SiteName = siteViewModel.SiteName,
+            SiteAddress1 = siteViewModel.SiteAddress1,
+            SiteAddress2 = siteViewModel.SiteAddress2,
+            SiteTown = siteViewModel.SiteTown,
+            SiteCounty = siteViewModel.SiteCounty,
+            SitePostcode = siteViewModel.SitePostcode,
+            SiteCountry = siteViewModel.SiteCountry
         };
 
         var jwt = Request.Cookies["jwtCookie"];
@@ -130,23 +133,14 @@ public class SitesController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(siteUpdateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Sites/" + id, content))
+            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Sites/" + siteViewModel.Id, content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ViewBag.Result = "Success";
             }
         };
-        SiteReadDto siteReadDto = new SiteReadDto
-        {
-            SiteName = SiteName,
-            SiteAddress1 = SiteAddress1,
-            SiteAddress2 = SiteAddress2,
-            SiteTown = SiteTown,
-            SiteCounty = SiteCounty,
-            SitePostcode = SitePostcode,
-            SiteCountry = SiteCountry
-        };
-        return View(siteReadDto);
+        
+        return View(siteViewModel);
     }
 
     [HttpPost]

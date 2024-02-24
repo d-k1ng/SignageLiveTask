@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using SignageLivePlayer.Client.Dtos;
 using SignageLivePlayer.Client.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -30,46 +32,28 @@ public class PlayersController : Controller
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    return RedirectToAction("Index", "Authorisation", new { message = "Unauthorized. Please Login." });
+                    return RedirectToAction("Index", "Authentication", new { message = "Unauthorized. Please Login." });
                 }
             }
         }
+
         return View(playerList);
     }
 
     public async Task<IActionResult> Add()
     {
-        var jwt = Request.Cookies["jwtCookie"];
+        IEnumerable<SelectListItem>? siteList = await GetSiteList()!;
 
-        using (HttpClient httpClient = new())
-        {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Sites"))
-            {
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    TempData["SiteList"] = apiResponse;
-                }
-
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
-                    return RedirectToAction("Index", "Authorisation", new { message = "Unauthorized. Please Login." });
-                }
-            }
-        }
-
-        return View();
+        return View(new PlayerViewModel { SiteList = siteList });
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(string PlayerName, string SiteId, int CheckInFrequency)
+    public async Task<IActionResult> Add(PlayerViewModel playerViewModel)
     {
         PlayerCreateDto playerCreateDto = new PlayerCreateDto {
-            SiteId = SiteId,
-            PlayerName = PlayerName,
-            CheckInFrequency = CheckInFrequency
+            SiteId = playerViewModel.SiteId,
+            PlayerName = playerViewModel.PlayerName,
+            CheckInFrequency = playerViewModel.CheckInFrequency
         };
 
         var jwt = Request.Cookies["jwtCookie"];
@@ -93,7 +77,22 @@ public class PlayersController : Controller
                 }
             }
         }
-        return View(receivedPlayer);
+
+        IEnumerable<SelectListItem>? siteList = await GetSiteList()!;
+
+        if (siteList is null) return NoContent();
+
+        PlayerViewModel viewModel = new PlayerViewModel
+        {
+            PlayerUniqueId = receivedPlayer.PlayerUniqueId,
+            CheckInFrequency = receivedPlayer.CheckInFrequency,
+            PlayerName = receivedPlayer.PlayerName,
+            //SiteId = receivedPlayer.Site!.Id,
+            //Site = receivedPlayer.Site,
+            SiteList = siteList
+        };
+
+        return View(viewModel);
     }
 
     public async Task<IActionResult> Update(string id)
@@ -110,24 +109,29 @@ public class PlayersController : Controller
                 playerReadDto = JsonConvert.DeserializeObject<PlayerReadDto>(apiResponse)!;
             }
         }
-        PlayerUpdateModel pum = new PlayerUpdateModel
+
+        IEnumerable<SelectListItem>? siteList = await GetSiteList()!;
+
+        PlayerViewModel pvm = new PlayerViewModel
         {
             PlayerUniqueId = playerReadDto.PlayerUniqueId,
             CheckInFrequency = playerReadDto.CheckInFrequency,
             PlayerName = playerReadDto.PlayerName,
-            SiteId = playerReadDto.Site!.Id
+            SiteId = playerReadDto.Site!.Id,
+            Site = playerReadDto.Site,
+            SiteList = siteList
         };
-        return View(pum);
+        return View(pvm);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(string id, string PlayerUniqueId, string PlayerName, string SiteId, int CheckInFrequency)
+    public async Task<IActionResult> Update(PlayerViewModel playerViewModel)
     {
         PlayerUpdateDto playerUpdateDto = new PlayerUpdateDto
         {
-            SiteId = SiteId,
-            PlayerName = PlayerName,
-            CheckInFrequency = CheckInFrequency
+            SiteId = playerViewModel.SiteId,
+            PlayerName = playerViewModel.PlayerName,
+            CheckInFrequency = playerViewModel.CheckInFrequency
         };
 
         var jwt = Request.Cookies["jwtCookie"];
@@ -136,20 +140,15 @@ public class PlayersController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(playerUpdateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Players/" + id, content))
+            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Players/" + playerViewModel.PlayerUniqueId, content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ViewBag.Result = "Success";
             }
         }
-
-        PlayerUpdateModel pum = new PlayerUpdateModel { 
-            PlayerUniqueId = PlayerUniqueId,
-            CheckInFrequency = CheckInFrequency,
-            PlayerName = PlayerName,
-            SiteId = SiteId
-        };
-        return View(pum);
+        IEnumerable<SelectListItem>? siteList = await GetSiteList()!;
+        playerViewModel.SiteList = siteList;
+        return View(playerViewModel);
     }
 
     [HttpPost]
@@ -166,6 +165,34 @@ public class PlayersController : Controller
         }
 
         return RedirectToAction("Index");
+    }
+
+    private async Task<IEnumerable<SelectListItem>>? GetSiteList()
+    {
+        var jwt = Request.Cookies["jwtCookie"];
+
+        List<SiteReadDto> siteList = new();
+
+        using (HttpClient httpClient = new())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Sites"))
+            {
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    siteList = JsonConvert.DeserializeObject<List<SiteReadDto>>(apiResponse)!;
+                    IEnumerable<SelectListItem> siteListItems = siteList.Select(a => new SelectListItem
+                    {
+                        Text = a.SiteName,
+                        Value = a.Id
+                    });
+                    return siteListItems;
+                }
+            }
+        }
+        return null!;
     }
 
 

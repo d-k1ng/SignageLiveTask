@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SignageLivePlayer.Client.Models;
+namespace SignageLivePlayer.Client.Dtos;
 
-public class PlayerUpdateDto
+public class PlayerCreateDto
 {
-
     [Required]
     public string PlayerName { get; set; } = string.Empty;
 

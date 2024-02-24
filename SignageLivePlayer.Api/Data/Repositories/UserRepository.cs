@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
 
         if (!_dbContext.Users.Any())
         {
-            foreach (var role in SeedData.roles) _dbContext.Roles.Add(role);
+            foreach (var role in Roles.AllRoles()) _dbContext.Roles.Add(role);
             foreach (var user in SeedData.users) _dbContext.Users.Add(user);
             foreach (var userRole in SeedData.userRoles) _dbContext.UserRoles.Add(userRole);
             SaveChanges();
@@ -24,7 +24,20 @@ public class UserRepository : IUserRepository
 
     public void Add(User user)
     {
+        //add user
         _dbContext.Users.Add(user);
+
+        //add user role USER for all new users
+        foreach (var role in Roles.AllRoles())
+        {
+            if (role.RoleName == Roles.ROLE_USER) {
+                UserRole userRole = new UserRole();
+                userRole.UserId = user.Id;
+                userRole.RoleId = role.Id;
+                _dbContext.UserRoles.Add(userRole);
+            }
+        }
+        
     }
 
     public User? GetUserByEmail(string email)

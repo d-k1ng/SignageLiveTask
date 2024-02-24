@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SignageLivePlayer.Client.Models;
+namespace SignageLivePlayer.Client.Dtos;
 
-public class SiteUpdateDto
+public class SiteReadDto
 {
     [Required]
+    public string Id { get; set; } = string.Empty;
+
     public string SiteName { get; set; } = string.Empty;
 
     public string SiteAddress1 { get; set; } = string.Empty;
@@ -19,4 +21,7 @@ public class SiteUpdateDto
 
     public string SiteCountry { get; set; } = string.Empty;
 
+    public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+
+    public DateTime? DateModified { get; set; }
 }

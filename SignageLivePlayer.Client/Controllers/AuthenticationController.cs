@@ -4,7 +4,7 @@ using SignageLivePlayer.Client.Authentication;
 
 namespace SignageLivePlayer.Client.Controllers;
 
-public class AuthorisationController : Controller
+public class AuthenticationController : Controller
 {
     public IActionResult Index(string message)
     {

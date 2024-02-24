@@ -1,40 +1,51 @@
-﻿@model SiteReadDto
+﻿@model SiteViewModel
 @{
     ViewBag.Title = "Update a Site";
 }
 
-<h2>Update a Site <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
-<form method="post">
-    <div class="form-group">
+<h2>Update a Site <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Back</a></h2>
+
+<form asp-action="Update" method="post" enctype="multipart/form-data">
+
+    <input asp-for="Id" hidden="hidden" />
+
+    <div>
         <label asp-for="SiteName"></label>
-        <input class="form-control" asp-for="SiteName" />
+        <input asp-for="SiteName" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteName" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SiteAddress1"></label>
-        <input class="form-control" asp-for="SiteAddress1" />
+        <input asp-for="SiteAddress1" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteAddress1" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SiteAddress2"></label>
-        <input class="form-control" asp-for="SiteAddress2" />
+        <input asp-for="SiteAddress2" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteAddress2" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SiteTown"></label>
-        <input class="form-control" asp-for="SiteTown" />
+        <input asp-for="SiteTown" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteTown" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SiteCounty"></label>
-        <input class="form-control" asp-for="SiteCounty" />
+        <input asp-for="SiteCounty" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteCounty" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SitePostcode"></label>
-        <input class="form-control" asp-for="SitePostcode" />
+        <input asp-for="SitePostcode" class="form-control border-0 shadow" />
+        <span asp-validation-for="SitePostcode" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="SiteCountry"></label>
-        <input class="form-control" asp-for="SiteCountry" />
+        <input asp-for="SiteCountry" class="form-control border-0 shadow" />
+        <span asp-validation-for="SiteCountry" class="text-danger"></span>
     </div>
     <div class="text-center panel-body">
-        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
     </div>
 </form>
 
