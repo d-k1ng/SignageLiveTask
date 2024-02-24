@@ -3,6 +3,10 @@
     ViewBag.Title = "Add a Site";
 }
 
+@if (@TempData["Message"] != null)
+{
+    <div class="alert-danger">@TempData["Message"]</div>
+}
 
 
 <h2>Add a Site <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Back</a></h2>
@@ -47,8 +51,8 @@
         <span asp-validation-for="SiteCountry" class="text-danger"></span>
     </div>
 
-    <div class="text-center panel-body">
-        <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
+    <div class="text-left panel-body">
+        <button type="submit" class="btn btn-sm btn-outline-primary mt-2">Add</button>
     </div>
 </form>
 

@@ -12,7 +12,6 @@ public class SitesController : Controller
 {
     public async Task<IActionResult> Index()
     {
-
         var jwt = Request.Cookies["jwtCookie"];
 
         List<SiteReadDto> siteList = new List<SiteReadDto>();
@@ -93,8 +92,8 @@ public class SitesController : Controller
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             using (var response = await httpClient.GetAsync("https://localhost:7012/api/Sites/" + id))
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                siteReadDto = JsonConvert.DeserializeObject<SiteReadDto>(apiResponse)!;
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    siteReadDto = JsonConvert.DeserializeObject<SiteReadDto>(apiResponse)!;
             }
         }
 
@@ -135,8 +134,17 @@ public class SitesController : Controller
             StringContent content = new StringContent(JsonConvert.SerializeObject(siteUpdateDto), Encoding.UTF8, "application/json");
             using (var response = await httpClient.PutAsync("https://localhost:7012/api/Sites/" + siteViewModel.Id, content))
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                ViewBag.Result = "Success";
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    ViewBag.Result = "Success";
+                }
+                else
+                {
+                    TempData["Message"] = response.StatusCode;
+                }
+
+                
             }
         };
         
