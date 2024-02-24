@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SignageLivePlayer.Api.Authentication.Requests;
-using SignageLivePlayer.Api.Authentication.Responses;
+using SignageLivePlayer.Client.Authentication;
 
 namespace SignageLivePlayer.Client.Controllers;
 

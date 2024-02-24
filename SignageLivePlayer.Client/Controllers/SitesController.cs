@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Client.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -38,9 +37,8 @@ public class SitesController : Controller
         return View(siteList);
     }
 
-    public IActionResult Add(string message)
+    public IActionResult Add()
     {
-        ViewBag.Message = message;
         return View();
     }
 
@@ -80,8 +78,8 @@ public class SitesController : Controller
                 }
                 else
                 {
-                    ViewBag.StatusCode = response.StatusCode;
-                    RedirectToAction("Add", new { message = "Invalid Credentials" });
+                    TempData["Message"] = response.StatusCode;
+                    RedirectToAction("Add"); ViewBag.StatusCode = response.StatusCode;
                 }
             }
         }

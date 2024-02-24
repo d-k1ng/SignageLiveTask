@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SignageLivePlayer.Api.Data.Dtos;
-using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Client.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -39,9 +37,29 @@ public class PlayersController : Controller
         return View(playerList);
     }
 
-    public IActionResult Add(string message)
+    public async Task<IActionResult> Add()
     {
-        ViewBag.Message = message;
+        var jwt = Request.Cookies["jwtCookie"];
+
+        using (HttpClient httpClient = new())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Sites"))
+            {
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    TempData["SiteList"] = apiResponse;
+                }
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    return RedirectToAction("Index", "Authorisation", new { message = "Unauthorized. Please Login." });
+                }
+            }
+        }
+
         return View();
     }
 
@@ -70,8 +88,8 @@ public class PlayersController : Controller
                 }
                 else
                 {
-                    ViewBag.StatusCode = response.StatusCode;
-                    RedirectToAction("Add", new { message = "Invalid Credentials" });
+                    TempData["Message"] = response.StatusCode;
+                    RedirectToAction("Add");
                 }
             }
         }

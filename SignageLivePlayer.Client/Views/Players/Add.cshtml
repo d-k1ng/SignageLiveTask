@@ -1,11 +1,26 @@
 ﻿@model PlayerReadDto
 @{
     ViewBag.Title = "Add a Player";
+
+    List<SiteReadDto> siteList = new();
+
+    if (TempData["SiteList"] is not null) {
+        siteList = JsonConvert.DeserializeObject<List<SiteReadDto>>(TempData["SiteList"]!.ToString()!)!;
+    }
+
 }
 
-@if (ViewBag.Message != null)
+@if (@TempData["Message"] != null)
 {
-    <div class="alert-danger">@ViewBag.Message</div>
+    <div class="alert-danger">@TempData["Message"]</div>
+}
+
+@foreach (var site in siteList)
+{
+    <tr>
+        <td>@site.Id</td>
+        <td>@site.SiteName</td>
+    </tr>
 }
 
 <h2>Add a Player <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
