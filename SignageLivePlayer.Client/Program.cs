@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 namespace SignageLivePlayer.Client;
 
 public class Program

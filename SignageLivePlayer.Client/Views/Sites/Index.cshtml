@@ -4,13 +4,17 @@
     ViewData["Title"] = "All Sites";
 }
 
+@if (@TempData["Message"] != null)
+{
+    <div class="alert-danger">@TempData["Message"]</div>
+}
+
 <h2>All Sites</h2>
 <a asp-action="Add" class="btn btn-sm btn-outline-primary">Add Site</a>
 
 <table class="table table-sm table-striped table-bordered m-2">
     <thead>
         <tr>
-            <th>Site Id</th>
             <th>Site Name</th>
             <th>Site Address</th>
             <th>Date Created</th>
@@ -21,9 +25,8 @@
         @foreach (var s in Model)
         {
             <tr>
-                <td>@s.Id</td>
                 <td>@s.SiteName</td>
-                <td><p>@s.SiteAddress1</p> <p>@s.SiteTown</p> <p>@s.SiteCounty</p> <p>@s.SitePostcode</p> <p>@s.SiteCountry</p></td>
+                <td>@s.SiteAddress1<br />@s.SiteAddress2<br />@s.SiteTown<br />@s.SiteCounty<br />@s.SitePostcode<br />@s.SiteCountry</td>
                 <td>@s.DateCreated</td>
                 <td>
                     <table>

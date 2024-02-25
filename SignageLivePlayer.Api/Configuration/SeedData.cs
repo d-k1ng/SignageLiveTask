@@ -12,13 +12,30 @@ public static class SeedData
             FirstName = "",
             LastName = "",
             Password = "admin"
+        },
+        new User {
+            Email = "user",
+            FirstName = "",
+            LastName = "",
+            Password = "user"
+        },
+        new User {
+            Email = "siteadmin",
+            FirstName = "",
+            LastName = "",
+            Password = "siteadmin"
         }
      ];
 
+
+
     public static readonly UserRole[] userRoles = [
-        new UserRole { UserId = "1", RoleId = "1" },
-        new UserRole { UserId = "1", RoleId = "2" },
-        new UserRole { UserId = "1", RoleId = "3" }
+        new UserRole { UserId = users[0].Id, RoleId = "1" },
+        new UserRole { UserId = users[0].Id, RoleId = "2" },
+        new UserRole { UserId = users[0].Id, RoleId = "3" },
+        new UserRole { UserId = users[1].Id, RoleId = "3" },
+        new UserRole { UserId = users[2].Id, RoleId = "2" },
+        new UserRole { UserId = users[2].Id, RoleId = "3" },
     ];
 
     public static readonly Site[] sites = [

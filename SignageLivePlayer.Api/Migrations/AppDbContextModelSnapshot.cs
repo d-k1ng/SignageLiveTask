@@ -51,83 +51,83 @@ namespace SignageLivePlayer.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4a8de9eb-fa69-4572-8b6f-db434dda35d7",
+                            Id = "9f50f77b-9ca2-4bd5-bcfa-571753efb640",
                             CheckInFrequency = 60,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(8194),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(8196),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(7610),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(7611),
                             PlayerName = "Reception Large Screen",
                             PlayerUniqueId = "RECEPT-0987",
-                            SiteId = "72bc9fb6-ac2d-4747-9bc4-741633217a7b"
+                            SiteId = "ed1d40d2-a23a-4c49-a2db-9ac21ac3c07f"
                         },
                         new
                         {
-                            Id = "e18500c9-1a4c-4cf3-94d9-f87ff6073519",
+                            Id = "b4052722-99ed-4ffe-81ab-0d1cd923478b",
                             CheckInFrequency = 60,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1431),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1433),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(571),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(572),
                             PlayerName = "Reception Small Screen 1",
                             PlayerUniqueId = "RECEPT-1273",
-                            SiteId = "72bc9fb6-ac2d-4747-9bc4-741633217a7b"
+                            SiteId = "ed1d40d2-a23a-4c49-a2db-9ac21ac3c07f"
                         },
                         new
                         {
-                            Id = "5f8f5244-055e-4be3-bbe3-33c232b07ea0",
+                            Id = "0db5c8aa-8f41-41b7-ba7a-1bda237fae3f",
                             CheckInFrequency = 60,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1456),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1457),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(609),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(610),
                             PlayerName = "Reception Small Screen 2",
                             PlayerUniqueId = "RECEPT-1986",
-                            SiteId = "72bc9fb6-ac2d-4747-9bc4-741633217a7b"
+                            SiteId = "ed1d40d2-a23a-4c49-a2db-9ac21ac3c07f"
                         },
                         new
                         {
-                            Id = "ed4f2224-74ce-48b9-894c-616568ed9c5b",
+                            Id = "42ecce60-c4e7-4849-b6c8-f0ecbee4a699",
                             CheckInFrequency = 120,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1478),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1478),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(632),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(632),
                             PlayerName = "Sales Office",
                             PlayerUniqueId = "SALESO-5459",
-                            SiteId = "72bc9fb6-ac2d-4747-9bc4-741633217a7b"
+                            SiteId = "ed1d40d2-a23a-4c49-a2db-9ac21ac3c07f"
                         },
                         new
                         {
-                            Id = "8a64d7e1-9c10-477b-aa83-edb1955f1702",
+                            Id = "a76fe79b-aa76-427d-a0d5-b1e668e44698",
                             CheckInFrequency = 180,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1503),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1504),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(653),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(654),
                             PlayerName = "Marketing Office 1",
                             PlayerUniqueId = "MARKET-2278",
-                            SiteId = "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe"
+                            SiteId = "33c842e3-5b4e-41ba-aa26-21d4e8d1f48b"
                         },
                         new
                         {
-                            Id = "9a3f4818-035b-40ce-932a-f4a4bb356f8f",
+                            Id = "3fc0432f-0ab3-4243-ac2c-78e10db73ec3",
                             CheckInFrequency = 100,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1524),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1525),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(678),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(678),
                             PlayerName = "Marketing Office 2",
                             PlayerUniqueId = "MARKET-3424",
-                            SiteId = "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe"
+                            SiteId = "33c842e3-5b4e-41ba-aa26-21d4e8d1f48b"
                         },
                         new
                         {
-                            Id = "f889af3b-9978-4375-bbd8-4e223050c59e",
+                            Id = "4d348e46-3363-403e-869a-dbd183e8a1ec",
                             CheckInFrequency = 30,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1549),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1550),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(698),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(699),
                             PlayerName = "Warehouse Building 1",
                             PlayerUniqueId = "WAREHO-3751",
-                            SiteId = "75f2fef8-eac0-4e2b-8d6b-d761454c3630"
+                            SiteId = "fc841305-958b-4ce9-b0f6-a01467fca116"
                         },
                         new
                         {
-                            Id = "5446d3ae-df13-4a0c-9b13-6e38a6044735",
+                            Id = "75d3cef6-7ec6-4d35-941e-58651f761118",
                             CheckInFrequency = 30,
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1571),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1571),
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(719),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 456, DateTimeKind.Utc).AddTicks(719),
                             PlayerName = "Warehouse Building 2",
                             PlayerUniqueId = "WAREHO-7364",
-                            SiteId = "75f2fef8-eac0-4e2b-8d6b-d761454c3630"
+                            SiteId = "fc841305-958b-4ce9-b0f6-a01467fca116"
                         });
                 });
 
@@ -202,9 +202,9 @@ namespace SignageLivePlayer.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "72bc9fb6-ac2d-4747-9bc4-741633217a7b",
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(2754),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(2759),
+                            Id = "ed1d40d2-a23a-4c49-a2db-9ac21ac3c07f",
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(3188),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(3196),
                             SiteAddress1 = "30 South Street",
                             SiteAddress2 = "",
                             SiteCountry = "",
@@ -215,9 +215,9 @@ namespace SignageLivePlayer.Api.Migrations
                         },
                         new
                         {
-                            Id = "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe",
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6114),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6116),
+                            Id = "33c842e3-5b4e-41ba-aa26-21d4e8d1f48b",
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(5859),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(5861),
                             SiteAddress1 = "58 Grove Road",
                             SiteAddress2 = "",
                             SiteCountry = "",
@@ -228,9 +228,9 @@ namespace SignageLivePlayer.Api.Migrations
                         },
                         new
                         {
-                            Id = "75f2fef8-eac0-4e2b-8d6b-d761454c3630",
-                            DateCreated = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6131),
-                            DateModified = new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6131),
+                            Id = "fc841305-958b-4ce9-b0f6-a01467fca116",
+                            DateCreated = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(5878),
+                            DateModified = new DateTime(2024, 2, 25, 2, 20, 27, 455, DateTimeKind.Utc).AddTicks(5878),
                             SiteAddress1 = "54 York Road",
                             SiteAddress2 = "",
                             SiteCountry = "",
@@ -269,11 +269,27 @@ namespace SignageLivePlayer.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6d6a41e6-5e9a-4f43-8129-01a426944d52",
+                            Id = "29c183f5-054d-45ef-a5a9-7046562be1f3",
                             Email = "admin",
                             FirstName = "",
                             LastName = "",
                             Password = "admin"
+                        },
+                        new
+                        {
+                            Id = "877cd4eb-2c99-4166-8945-8904a3233bdc",
+                            Email = "user",
+                            FirstName = "",
+                            LastName = "",
+                            Password = "user"
+                        },
+                        new
+                        {
+                            Id = "c43662b0-1fdb-44a1-8873-182a1b4f6865",
+                            Email = "siteadmin",
+                            FirstName = "",
+                            LastName = "",
+                            Password = "siteadmin"
                         });
                 });
 
@@ -294,17 +310,32 @@ namespace SignageLivePlayer.Api.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "1",
+                            UserId = "29c183f5-054d-45ef-a5a9-7046562be1f3",
                             RoleId = "1"
                         },
                         new
                         {
-                            UserId = "1",
+                            UserId = "29c183f5-054d-45ef-a5a9-7046562be1f3",
                             RoleId = "2"
                         },
                         new
                         {
-                            UserId = "1",
+                            UserId = "29c183f5-054d-45ef-a5a9-7046562be1f3",
+                            RoleId = "3"
+                        },
+                        new
+                        {
+                            UserId = "877cd4eb-2c99-4166-8945-8904a3233bdc",
+                            RoleId = "3"
+                        },
+                        new
+                        {
+                            UserId = "c43662b0-1fdb-44a1-8873-182a1b4f6865",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "c43662b0-1fdb-44a1-8873-182a1b4f6865",
                             RoleId = "3"
                         });
                 });

@@ -10,6 +10,15 @@ namespace SignageLivePlayer.Client.Controllers;
 
 public class SitesController : Controller
 {
+    private readonly IConfiguration _configuration;
+    private readonly string _apiUrl = "";
+
+    public SitesController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+        _apiUrl = _configuration["apiUrl"] ?? "https://localhost:7012/api/";
+    }
+
     public async Task<IActionResult> Index()
     {
         var jwt = Request.Cookies["jwtCookie"];
@@ -19,7 +28,7 @@ public class SitesController : Controller
         using (HttpClient httpClient = new())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Sites"))
+            using (HttpResponseMessage response = await httpClient.GetAsync(_apiUrl + "Sites"))
             {
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -63,7 +72,7 @@ public class SitesController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(siteCreateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PostAsync("https://localhost:7012/api/Sites", content))
+            using (var response = await httpClient.PostAsync(_apiUrl + "Sites", content))
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
@@ -73,7 +82,7 @@ public class SitesController : Controller
                 else
                 {
                     TempData["Message"] = response.StatusCode;
-                    RedirectToAction("Add"); ViewBag.StatusCode = response.StatusCode;
+                    RedirectToAction("Add");
                 }
             }
         }
@@ -90,7 +99,7 @@ public class SitesController : Controller
         using (var httpClient = new HttpClient())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (var response = await httpClient.GetAsync("https://localhost:7012/api/Sites/" + id))
+            using (var response = await httpClient.GetAsync(_apiUrl + "Sites/" + id))
             {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     siteReadDto = JsonConvert.DeserializeObject<SiteReadDto>(apiResponse)!;
@@ -132,7 +141,7 @@ public class SitesController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(siteUpdateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Sites/" + siteViewModel.Id, content))
+            using (var response = await httpClient.PutAsync(_apiUrl + "Sites/" + siteViewModel.Id, content))
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
@@ -158,9 +167,13 @@ public class SitesController : Controller
         using (var httpClient = new HttpClient())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (var response = await httpClient.DeleteAsync("https://localhost:7012/api/Sites/" + id))
+            using (var response = await httpClient.DeleteAsync(_apiUrl + "Sites/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = response.StatusCode.ToString();
+                }
             }
         }
 

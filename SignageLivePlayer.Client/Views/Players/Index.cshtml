@@ -5,7 +5,12 @@
     ViewData["Title"] = "All Players";
 }
 
-<h2>All Players</h2>
+@if (@TempData["Message"] != null)
+{
+    <div class="alert-danger">@TempData["Message"]</div>
+}
+
+<h2>Players</h2>
 <a asp-action="Add" class="btn btn-sm btn-outline-primary">Add Player</a>
 
 <table class="table table-sm table-striped table-bordered m-2">

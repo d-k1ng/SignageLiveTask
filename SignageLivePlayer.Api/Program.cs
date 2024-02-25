@@ -54,7 +54,7 @@ public class Program
                 ValidAudience = "playerclient",
                 ValidIssuer = "playerapi",
                 ClockSkew = TimeSpan.Zero,// It forces tokens to expire exactly at token expiration time instead of 5 minutes later
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisisasecretforjwttokensthatwewilluse"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwtKey"]!))
             };
         });
 

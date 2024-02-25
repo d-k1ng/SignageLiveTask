@@ -15,7 +15,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 {
     [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet]
-    public ActionResult<List<PlayerReadDto>> GetAll()
+    public IActionResult GetAll()
     {
         List<Player> players = _playerRepository.GetAll();
         List<PlayerReadDto> playerDtos = _mapper.Map<List<PlayerReadDto>>(players);
@@ -24,7 +24,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 
     [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet("{id}", Name = "GetByPlayerId")]
-    public ActionResult<PlayerReadDto> GetByPlayerId(string id)
+    public IActionResult GetByPlayerId(string id)
     {
 
         Player? player = _playerRepository.GetByPlayerUniqueId(id);
@@ -36,7 +36,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 
     [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPost]
-    public ActionResult<PlayerReadDto> CreatePlayer(PlayerCreateDto playerDto)
+    public IActionResult CreatePlayer(PlayerCreateDto playerDto)
     {
 
         RepoResponse<Player> repoResponse = _playerRepository.CreatePlayer(_mapper.Map<Player>(playerDto));

@@ -6,6 +6,15 @@ namespace SignageLivePlayer.Client.Controllers;
 
 public class AuthenticationController : Controller
 {
+    private readonly IConfiguration _configuration;
+    private readonly string _apiUrl = "";
+
+    public AuthenticationController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+        _apiUrl = _configuration["apiUrl"] ?? "https://localhost:7012/api/";
+    }
+
     public IActionResult Index(string message)
     {
         ViewBag.Message = message;
@@ -20,7 +29,7 @@ public class AuthenticationController : Controller
         {
             var req = new LoginRequest(Email: email, Password: password);
 
-            using (HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7012/api/Authentication/login", req))
+            using (HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + "Authentication/login", req))
             {
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -56,7 +65,7 @@ public class AuthenticationController : Controller
         {
             var req = new RegisterRequest(FirstName: firstName, LastName: lastName, Email: email, Password: password);
 
-            using (HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7012/api/Authentication/register", req))
+            using (HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + "Authentication/register", req))
             {
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)

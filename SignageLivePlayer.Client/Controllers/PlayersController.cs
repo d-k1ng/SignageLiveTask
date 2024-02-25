@@ -11,6 +11,15 @@ namespace SignageLivePlayer.Client.Controllers;
 
 public class PlayersController : Controller
 {
+    private readonly IConfiguration _configuration;
+    private readonly string _apiUrl = "";
+
+    public PlayersController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+        _apiUrl = _configuration["apiUrl"] ?? "https://localhost:7012/api/";
+    }
+
     public async Task<IActionResult> Index()
     {
 
@@ -21,7 +30,7 @@ public class PlayersController : Controller
         using (HttpClient httpClient = new())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Players"))
+            using (HttpResponseMessage response = await httpClient.GetAsync(_apiUrl + "Players"))
             {
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -63,7 +72,7 @@ public class PlayersController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(playerCreateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PostAsync("https://localhost:7012/api/Players", content))
+            using (var response = await httpClient.PostAsync(_apiUrl + "Players", content))
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
@@ -87,8 +96,7 @@ public class PlayersController : Controller
             PlayerUniqueId = receivedPlayer.PlayerUniqueId,
             CheckInFrequency = receivedPlayer.CheckInFrequency,
             PlayerName = receivedPlayer.PlayerName,
-            //SiteId = receivedPlayer.Site!.Id,
-            //Site = receivedPlayer.Site,
+            Site = receivedPlayer.Site,
             SiteList = siteList
         };
 
@@ -103,7 +111,7 @@ public class PlayersController : Controller
         using (var httpClient = new HttpClient())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (var response = await httpClient.GetAsync("https://localhost:7012/api/Players/" + id))
+            using (var response = await httpClient.GetAsync(_apiUrl + "Players/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 playerReadDto = JsonConvert.DeserializeObject<PlayerReadDto>(apiResponse)!;
@@ -140,7 +148,7 @@ public class PlayersController : Controller
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             StringContent content = new StringContent(JsonConvert.SerializeObject(playerUpdateDto), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PutAsync("https://localhost:7012/api/Players/" + playerViewModel.PlayerUniqueId, content))
+            using (var response = await httpClient.PutAsync(_apiUrl + "Players/" + playerViewModel.PlayerUniqueId, content))
             {
                 
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -157,6 +165,11 @@ public class PlayersController : Controller
         }
         IEnumerable<SelectListItem>? siteList = await GetSiteList()!;
         playerViewModel.SiteList = siteList;
+        var site = siteList.FirstOrDefault(s => s.Value == playerViewModel.SiteId);
+        if (site is not null)
+        {
+            playerViewModel.Site = new() { SiteName = site.Text };
+        }
         return View(playerViewModel);
     }
 
@@ -167,9 +180,13 @@ public class PlayersController : Controller
         using (var httpClient = new HttpClient())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (var response = await httpClient.DeleteAsync("https://localhost:7012/api/Players/" + id))
+            using (var response = await httpClient.DeleteAsync(_apiUrl + "Players/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = response.StatusCode.ToString();
+                }
             }
         }
 
@@ -185,7 +202,7 @@ public class PlayersController : Controller
         using (HttpClient httpClient = new())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            using (HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7012/api/Sites"))
+            using (HttpResponseMessage response = await httpClient.GetAsync(_apiUrl + "Sites"))
             {
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
