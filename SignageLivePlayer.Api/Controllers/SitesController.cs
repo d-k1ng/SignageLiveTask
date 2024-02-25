@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SignageLivePlayer.Api.Configuration;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
@@ -9,10 +10,9 @@ namespace SignageLivePlayer.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
 {
-   
+    [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet]
     public ActionResult<List<SiteReadDto>> GetAll()
     {
@@ -21,6 +21,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
         return Ok(siteDtos);
     }
 
+    [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet("{id}", Name = "GetById")]
     public ActionResult<SiteReadDto> GetById(string id)
     {
@@ -33,6 +34,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPost]
     public ActionResult<SiteReadDto> CreateSite(SiteCreateDto siteDto)
     {
@@ -44,6 +46,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPut("{id}")]
     public IActionResult UpdateSite(string id, SiteUpdateDto siteDto)
     {
@@ -61,12 +64,14 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_ADMIN)]
     [HttpDelete("{id}")]
     public IActionResult Delete(string id)
     {
 
         Site? site = _siteRepository.GetById(id);
         if (site is null) return NotFound();
+       
 
         _siteRepository.DeleteSite(site);
         _siteRepository.SaveChanges();

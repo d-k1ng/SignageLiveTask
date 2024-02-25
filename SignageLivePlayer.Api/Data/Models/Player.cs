@@ -31,7 +31,7 @@ public class Player
     public string PlayerName { get; set; } = string.Empty;
 
     public string? SiteId { get; set; }
-    [ForeignKey("Id")]
+    [ForeignKey("SiteId")]
     public Site? Site { get; set; }
 
     public int CheckInFrequency { get; set; }

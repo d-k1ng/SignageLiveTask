@@ -142,8 +142,17 @@ public class PlayersController : Controller
             StringContent content = new StringContent(JsonConvert.SerializeObject(playerUpdateDto), Encoding.UTF8, "application/json");
             using (var response = await httpClient.PutAsync("https://localhost:7012/api/Players/" + playerViewModel.PlayerUniqueId, content))
             {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                ViewBag.Result = "Success";
+                
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    ViewBag.Result = "Success";
+                }
+                else
+                {
+                    TempData["Message"] = response.StatusCode;
+                    RedirectToAction("Update");
+                }
             }
         }
         IEnumerable<SelectListItem>? siteList = await GetSiteList()!;

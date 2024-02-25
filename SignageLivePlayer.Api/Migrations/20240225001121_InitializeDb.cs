@@ -31,14 +31,14 @@ namespace SignageLivePlayer.Api.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     SiteName = table.Column<string>(type: "TEXT", nullable: false),
-                    SiteAddress1 = table.Column<string>(type: "TEXT", nullable: false),
-                    SiteAddress2 = table.Column<string>(type: "TEXT", nullable: false),
-                    SiteTown = table.Column<string>(type: "TEXT", nullable: false),
-                    SiteCounty = table.Column<string>(type: "TEXT", nullable: false),
-                    SitePostcode = table.Column<string>(type: "TEXT", nullable: false),
-                    SiteCountry = table.Column<string>(type: "TEXT", nullable: false),
+                    SiteAddress1 = table.Column<string>(type: "TEXT", nullable: true),
+                    SiteAddress2 = table.Column<string>(type: "TEXT", nullable: true),
+                    SiteTown = table.Column<string>(type: "TEXT", nullable: true),
+                    SiteCounty = table.Column<string>(type: "TEXT", nullable: true),
+                    SitePostcode = table.Column<string>(type: "TEXT", nullable: true),
+                    SiteCountry = table.Column<string>(type: "TEXT", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    DateModified = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,26 +94,10 @@ namespace SignageLivePlayer.Api.Migrations
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Players_Sites_Id",
-                        column: x => x.Id,
+                        name: "FK_Players_Sites_SiteId",
+                        column: x => x.SiteId,
                         principalTable: "Sites",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Players",
-                columns: new[] { "Id", "CheckInFrequency", "DateCreated", "DateModified", "PlayerName", "PlayerUniqueId", "SiteId" },
-                values: new object[,]
-                {
-                    { "0570c4cd-40f8-427e-8ec1-c93bb214adaa", 100, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7982), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7982), "Marketing Office 2", "MARKET-3424", "d2cecbcb-9c4a-4890-af02-9854c11e402f" },
-                    { "23e52508-2077-4927-802f-d5082475755a", 180, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7961), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7961), "Marketing Office 1", "MARKET-2278", "d2cecbcb-9c4a-4890-af02-9854c11e402f" },
-                    { "5ae61ad4-62f0-455a-991a-b1baa412004c", 60, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(4769), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(4771), "Reception Large Screen", "RECEPT-0987", "72c77116-711b-449b-b57c-2b03239247b2" },
-                    { "9810477b-4a99-4bd0-bfa1-d0022ab2f7cd", 60, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7908), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7909), "Reception Small Screen 2", "RECEPT-1986", "72c77116-711b-449b-b57c-2b03239247b2" },
-                    { "9b56b7e5-5c1c-41e3-bf92-82b3ddc3e2b3", 30, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(8007), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(8008), "Warehouse Building 1", "WAREHO-3751", "85965d81-c045-4a35-8523-82b64fdc0e87" },
-                    { "e13a59c8-09e7-4b4b-a926-2f4313218b45", 120, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7940), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7940), "Sales Office", "SALESO-5459", "72c77116-711b-449b-b57c-2b03239247b2" },
-                    { "e350e0f9-c6af-4ed9-a81c-ac18d8648768", 60, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7882), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(7884), "Reception Small Screen 1", "RECEPT-1273", "72c77116-711b-449b-b57c-2b03239247b2" },
-                    { "f9454690-fc43-4a23-b1c5-6440946e599e", 30, new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(8028), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(8029), "Warehouse Building 2", "WAREHO-7364", "85965d81-c045-4a35-8523-82b64fdc0e87" }
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -131,15 +115,30 @@ namespace SignageLivePlayer.Api.Migrations
                 columns: new[] { "Id", "DateCreated", "DateModified", "SiteAddress1", "SiteAddress2", "SiteCountry", "SiteCounty", "SiteName", "SitePostcode", "SiteTown" },
                 values: new object[,]
                 {
-                    { "72c77116-711b-449b-b57c-2b03239247b2", new DateTime(2024, 2, 24, 23, 18, 50, 792, DateTimeKind.Utc).AddTicks(9985), new DateTime(2024, 2, 24, 23, 18, 50, 792, DateTimeKind.Utc).AddTicks(9990), "30 South Street", "", "", "", "Headquarters", "CB85 1RA", "Cambridge" },
-                    { "85965d81-c045-4a35-8523-82b64fdc0e87", new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(2735), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(2736), "54 York Road", "", "", "", "Manchester Branch", "M52 3RK", "Manchester" },
-                    { "d2cecbcb-9c4a-4890-af02-9854c11e402f", new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(2715), new DateTime(2024, 2, 24, 23, 18, 50, 793, DateTimeKind.Utc).AddTicks(2718), "58 Grove Road", "", "", "", "London Branch", "CB85 1RA", "East Central London" }
+                    { "72bc9fb6-ac2d-4747-9bc4-741633217a7b", new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(2754), new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(2759), "30 South Street", "", "", "", "Headquarters", "CB85 1RA", "Cambridge" },
+                    { "75f2fef8-eac0-4e2b-8d6b-d761454c3630", new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6131), new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6131), "54 York Road", "", "", "", "Manchester Branch", "M52 3RK", "Manchester" },
+                    { "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe", new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6114), new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(6116), "58 Grove Road", "", "", "", "London Branch", "CB85 1RA", "East Central London" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Password" },
-                values: new object[] { "c0a955c4-5be6-477e-81b0-19edfaa32fbd", "admin", "", "", "admin" });
+                values: new object[] { "6d6a41e6-5e9a-4f43-8129-01a426944d52", "admin", "", "", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Players",
+                columns: new[] { "Id", "CheckInFrequency", "DateCreated", "DateModified", "PlayerName", "PlayerUniqueId", "SiteId" },
+                values: new object[,]
+                {
+                    { "4a8de9eb-fa69-4572-8b6f-db434dda35d7", 60, new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(8194), new DateTime(2024, 2, 25, 0, 11, 20, 267, DateTimeKind.Utc).AddTicks(8196), "Reception Large Screen", "RECEPT-0987", "72bc9fb6-ac2d-4747-9bc4-741633217a7b" },
+                    { "5446d3ae-df13-4a0c-9b13-6e38a6044735", 30, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1571), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1571), "Warehouse Building 2", "WAREHO-7364", "75f2fef8-eac0-4e2b-8d6b-d761454c3630" },
+                    { "5f8f5244-055e-4be3-bbe3-33c232b07ea0", 60, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1456), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1457), "Reception Small Screen 2", "RECEPT-1986", "72bc9fb6-ac2d-4747-9bc4-741633217a7b" },
+                    { "8a64d7e1-9c10-477b-aa83-edb1955f1702", 180, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1503), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1504), "Marketing Office 1", "MARKET-2278", "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe" },
+                    { "9a3f4818-035b-40ce-932a-f4a4bb356f8f", 100, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1524), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1525), "Marketing Office 2", "MARKET-3424", "aa1e0f26-20e4-4a28-be6e-c84dbc2834fe" },
+                    { "e18500c9-1a4c-4cf3-94d9-f87ff6073519", 60, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1431), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1433), "Reception Small Screen 1", "RECEPT-1273", "72bc9fb6-ac2d-4747-9bc4-741633217a7b" },
+                    { "ed4f2224-74ce-48b9-894c-616568ed9c5b", 120, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1478), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1478), "Sales Office", "SALESO-5459", "72bc9fb6-ac2d-4747-9bc4-741633217a7b" },
+                    { "f889af3b-9978-4375-bbd8-4e223050c59e", 30, new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1549), new DateTime(2024, 2, 25, 0, 11, 20, 268, DateTimeKind.Utc).AddTicks(1550), "Warehouse Building 1", "WAREHO-3751", "75f2fef8-eac0-4e2b-8d6b-d761454c3630" }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
@@ -150,6 +149,11 @@ namespace SignageLivePlayer.Api.Migrations
                     { "2", "1" },
                     { "3", "1" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_SiteId",
+                table: "Players",
+                column: "SiteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",

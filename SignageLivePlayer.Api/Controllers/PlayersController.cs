@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SignageLivePlayer.Api.Configuration;
 using SignageLivePlayer.Api.Data.Dtos;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
@@ -10,9 +11,9 @@ namespace SignageLivePlayer.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class PlayersController(IPlayerRepository _playerRepository, IMapper _mapper) : ControllerBase
 {
+    [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet]
     public ActionResult<List<PlayerReadDto>> GetAll()
     {
@@ -21,6 +22,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
         return Ok(playerDtos);
     }
 
+    [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet("{id}", Name = "GetByPlayerId")]
     public ActionResult<PlayerReadDto> GetByPlayerId(string id)
     {
@@ -32,6 +34,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPost]
     public ActionResult<PlayerReadDto> CreatePlayer(PlayerCreateDto playerDto)
     {
@@ -49,6 +52,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPut("{id}")]
     public IActionResult UpdatePlayer(string id, PlayerUpdateDto playerDto)
     {
@@ -66,6 +70,7 @@ public class PlayersController(IPlayerRepository _playerRepository, IMapper _map
 
     }
 
+    [Authorize(Roles = StaticData.ROLE_ADMIN)]
     [HttpDelete("{id}")]
     public IActionResult Delete(string id)
     {

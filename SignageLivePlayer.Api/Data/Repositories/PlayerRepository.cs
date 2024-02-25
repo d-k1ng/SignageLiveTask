@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SignageLivePlayer.Api.Configuration;
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
@@ -14,17 +13,6 @@ public class PlayerRepository : IPlayerRepository
     public PlayerRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
-
-        if (!_dbContext.Sites.Any()) SeedNewData();
-        
-    }
-
-    public void SeedNewData()
-    {
-        foreach (var site in SeedData.sites) _dbContext.Sites.Add(site);
-        foreach (var player in SeedData.players) _dbContext.Players.Add(player);
-
-        SaveChanges();
     }
 
     public List<Player> GetAll()
@@ -40,7 +28,7 @@ public class PlayerRepository : IPlayerRepository
     public RepoResponse<Player> CreatePlayer(Player player)
     {
         RepoResponse<Player> response = new();
-        //test if the site id exist
+        //test if the site id exists
         //in future expand to user authorised sites
         if (_dbContext.Sites.FirstOrDefault(s => s.Id == player.SiteId) is null)
         {
@@ -48,6 +36,20 @@ public class PlayerRepository : IPlayerRepository
             response.IsError = true;
             return response;
         }
+
+        Random rnd = new();
+
+        //create a unique id using first 6 chars of player name and random 4 digits
+        string str = "" + rnd.Next(1,10000);
+        str = str.PadLeft(4,char.Parse("0"));
+
+        player.PlayerUniqueId = player.PlayerName
+            .ToUpper()
+            .Substring(0, Math.Min(6, player.PlayerName.Length))
+            .PadRight(6, char.Parse("X"))
+            + "-"
+            + str;
+
         _dbContext.Players.Add(player);
         response.Data = player;
         response.IsError = false;

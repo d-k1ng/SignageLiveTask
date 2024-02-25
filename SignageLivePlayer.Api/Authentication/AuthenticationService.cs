@@ -1,4 +1,5 @@
 ﻿using SignageLivePlayer.Api.Data.Models;
+using SignageLivePlayer.Api.Data.Repositories;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -43,14 +44,21 @@ public class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserR
 
     private Claim[] GetClaims(User user)
     {
-        var claims = new[]
-        {
+        List<Claim> claims =
+        [
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+            new Claim(JwtRegisteredClaimNames.Email, user.Email)
+        ];
 
-        return claims;
+        List<string> roles = _userRepository.GetUserRoles(user.Id);
+
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        return [.. claims];
     }
 }

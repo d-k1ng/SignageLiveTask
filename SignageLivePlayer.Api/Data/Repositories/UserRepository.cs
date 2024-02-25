@@ -2,6 +2,7 @@
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
+using System.Linq;
 
 namespace SignageLivePlayer.Api.Data.Repositories;
 
@@ -36,6 +37,19 @@ public class UserRepository : IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(u => u.Email == email);
     }
+
+    public List<string> GetUserRoles(string userId)
+    {
+        List<string> roles = new List<string>();
+        var userRoles = _dbContext.UserRoles.Where(u => u.UserId == userId).ToList();
+
+        foreach (var userRole in userRoles)
+            foreach (var role in StaticData.AllRoles())
+                if (userRole.RoleId == role.Id) roles.Add(role.RoleName);
+
+        return roles;
+    }
+        
 
     public void SaveChanges()
     {

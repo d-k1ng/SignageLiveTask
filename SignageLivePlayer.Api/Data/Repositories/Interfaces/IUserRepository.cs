@@ -8,5 +8,7 @@ public interface IUserRepository
 
     public User? GetUserByEmail(string email);
 
+    public List<string> GetUserRoles(string userId);
+
     public void SaveChanges();
 }
