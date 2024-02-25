@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using SignageLivePlayer.Api.Configuration;
 using SignageLivePlayer.Api.Controllers;
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Dtos;
-using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SignageLivePlayer.Api.Tests;
 
@@ -179,7 +176,7 @@ public class PlayerRepositoryTests
         Assert.IsType<ProblemDetails>(objectResult!.Value);
         var createResult = objectResult!.Value as ProblemDetails;
         Assert.NotNull(createResult);
-        Assert.Equal("Invalid Site Id", createResult.Title);
+        Assert.Equal("Invalid Site Id", createResult.Title); //ideally this would not be hardcoded and use a specific exception
     }
 
     [Fact]
@@ -256,7 +253,7 @@ public class PlayerRepositoryTests
         Assert.IsType<ProblemDetails>(objectResult!.Value);
         var updateResult = objectResult!.Value as ProblemDetails;
         Assert.NotNull(updateResult);
-        Assert.Equal("Invalid Site Id", updateResult.Title);
+        Assert.Equal("Invalid Site Id", updateResult.Title); //ideally this would not be hardcoded and use a specific exception
     }
 
     [Fact]

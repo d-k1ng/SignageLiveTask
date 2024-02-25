@@ -14,7 +14,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 {
     [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet]
-    public ActionResult<List<SiteReadDto>> GetAll()
+    public IActionResult GetAll()
     {
         List<Site> sites = _siteRepository.GetAll();
         List<SiteReadDto> siteDtos = _mapper.Map<List<SiteReadDto>>(sites);
@@ -23,7 +23,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 
     [Authorize(Roles = StaticData.ROLE_USER)]
     [HttpGet("{id}", Name = "GetById")]
-    public ActionResult<SiteReadDto> GetById(string id)
+    public IActionResult GetById(string id)
     {
 
         Site? site = _siteRepository.GetById(id);
@@ -36,7 +36,7 @@ public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) :
 
     [Authorize(Roles = StaticData.ROLE_SITEADMIN)]
     [HttpPost]
-    public ActionResult<SiteReadDto> CreateSite(SiteCreateDto siteDto)
+    public IActionResult CreateSite(SiteCreateDto siteDto)
     {
         Site site = _siteRepository.CreateSite(_mapper.Map<Site>(siteDto));
         _siteRepository.SaveChanges();
