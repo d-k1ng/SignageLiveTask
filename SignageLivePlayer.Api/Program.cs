@@ -76,7 +76,7 @@ public class Program
 
         app.UseSerilogRequestLogging();
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection(); //https redirection would be used in real production
 
         app.UseAuthentication();
         app.UseAuthorization();
@@ -84,6 +84,6 @@ public class Program
 
         app.MapControllers();
 
-        app.Run();
+        app.Run(builder.Configuration["apiHost"]);
     }
 }
