@@ -84,6 +84,8 @@ public class Program
 
         app.MapControllers();
 
+        MigrateDb.Migration(app); // apply migration if not already applied
+
         app.Run(builder.Configuration["apiHost"]);
     }
 }
