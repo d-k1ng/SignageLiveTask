@@ -8,7 +8,10 @@ namespace SignageLivePlayer.Api.Authentication;
 
 public class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository) : IAuthenticationService
 {
-
+    /*
+     * Register a new user checking if the supplied email already exists
+     * Return a Result to the calling controller that includes a jwt token
+     */
     public AuthenticationResult Register(string email, string password, string firstName, string lastName)
     {
 
@@ -26,6 +29,10 @@ public class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserR
         return new AuthenticationResult(user, token, false, null!);
     }
 
+    /*
+     * Handle user login returning a result with a generated jwt token
+     * 
+     */
     public AuthenticationResult Login(string email, string password)
     {
         User? user = _userRepository.GetUserByEmail(email);
@@ -42,6 +49,9 @@ public class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserR
         return new AuthenticationResult(user, token, false, null!);
     }
 
+    /*
+     *  retrieve claims for user including roles from UserRoles
+     */
     private Claim[] GetClaims(User user)
     {
         List<Claim> claims =

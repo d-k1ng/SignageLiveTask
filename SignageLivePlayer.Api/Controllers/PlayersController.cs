@@ -9,6 +9,15 @@ using SignageLivePlayer.Api.Data.Repositories.Responses;
 
 namespace SignageLivePlayer.Api.Controllers;
 
+/*
+ *  /api/Players
+ *  GET     GetAll()                ROLE_USER
+ *  GET     GetbyPlayerId(id)       ROLE_USER
+ *  POST    CreatePlayer(player)    ROLE_SITEADMIN
+ *  PUT     UpdatePlayer(player)    ROLE_SITEADMIN
+ *  DELETE  DeletePlayer(id)        ROLE_ADMIN
+ */
+
 [Route("api/[controller]")]
 [ApiController]
 public class PlayersController(IPlayerRepository _playerRepository, IMapper _mapper) : ControllerBase

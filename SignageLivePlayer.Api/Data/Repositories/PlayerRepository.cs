@@ -6,6 +6,11 @@ using SignageLivePlayer.Api.Data.Repositories.Responses;
 
 namespace SignageLivePlayer.Api.Data.Repositories;
 
+/*
+ * Concrete repository class for Players
+ * Injected into PlayersController
+ */
+
 public class PlayerRepository : IPlayerRepository
 {
     private readonly AppDbContext _dbContext;

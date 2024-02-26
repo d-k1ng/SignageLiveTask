@@ -2,6 +2,7 @@
 
 namespace SignageLivePlayer.Api.Configuration;
 
+//Hardcoded Role Data
 public static class StaticData
 {
     public const string ROLE_ADMIN = "ADMIN";

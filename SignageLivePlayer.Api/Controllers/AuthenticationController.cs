@@ -4,6 +4,15 @@ using SignageLivePlayer.Api.Authentication.Requests;
 using SignageLivePlayer.Api.Authentication.Responses;
 namespace SignageLivePlayer.Api.Controllers;
 
+/*
+ * 
+ *  /api/Authentication
+ *  
+ *  POST /register
+ *  POST /login
+ * 
+ */
+
 [Route("api/[controller]")]
 [ApiController]
 public class AuthenticationController(IAuthenticationService _authService) : ControllerBase

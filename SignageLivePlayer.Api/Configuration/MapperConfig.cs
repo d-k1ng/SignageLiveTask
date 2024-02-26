@@ -6,6 +6,7 @@ namespace SignageLivePlayer.Api.Configuration;
 
 public class MapperConfig : Profile
 {
+    //Configure AutoMapper
     public MapperConfig()
     {
         //Player

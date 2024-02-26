@@ -14,6 +14,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     {
         _configuration = configuration;   
     }
+    /*
+     * Generate a JWT token using secret key which includes the user claims
+     */
     public string GenerateToken(User user, Claim[] claims)
     {
         SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwtKey"]!));

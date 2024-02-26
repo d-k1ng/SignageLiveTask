@@ -2,6 +2,9 @@
 
 namespace SignageLivePlayer.Api.Data.Db;
 
+/*
+ * Class called during start up to ensure migrations are run
+ */
 public static class MigrateDb
 {
     public static void Migration(IApplicationBuilder app)

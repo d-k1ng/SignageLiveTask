@@ -2,10 +2,13 @@
 using SignageLivePlayer.Api.Data.Db;
 using SignageLivePlayer.Api.Data.Models;
 using SignageLivePlayer.Api.Data.Repositories.Interfaces;
-using System.Linq;
 
 namespace SignageLivePlayer.Api.Data.Repositories;
 
+/*
+ * Concrete repository class for Users
+ * Injected into AuthenticationService
+ */
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _dbContext;

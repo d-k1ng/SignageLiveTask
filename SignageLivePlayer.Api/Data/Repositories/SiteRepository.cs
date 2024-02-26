@@ -4,6 +4,11 @@ using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
 namespace SignageLivePlayer.Api.Data.Repositories;
 
+/*
+ * Concrete repository class for Sites
+ * Injected into SitesController
+ */
+
 public class SiteRepository(AppDbContext _dbContext) : ISiteRepository
 {
     public List<Site> GetAll()

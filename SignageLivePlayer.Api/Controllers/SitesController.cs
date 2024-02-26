@@ -8,6 +8,15 @@ using SignageLivePlayer.Api.Data.Repositories.Interfaces;
 
 namespace SignageLivePlayer.Api.Controllers;
 
+/*
+ *  /api/Sites
+ *  GET     GetAll()            ROLE_USER
+ *  GET     GetbyId(id)         ROLE_USER
+ *  POST    CreateSite(site)    ROLE_SITEADMIN
+ *  PUT     UpdateSite(site)    ROLE_SITEADMIN
+ *  DELETE  DeleteSite(id)      ROLE_ADMIN
+ */
+
 [Route("api/[controller]")]
 [ApiController]
 public class SitesController(ISiteRepository _siteRepository, IMapper _mapper) : ControllerBase
